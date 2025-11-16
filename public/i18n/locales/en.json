@@ -231,5 +231,15 @@
   "recording": "Recording...",
   "voiceInput": "Voice Input",
   "installApp": "Install GlobeSoS App",
-  "error": "Error"
+  "error": "Error",
+  "globalImpact.title": "Global Impact",
+  "globalImpact.description": "Making emergency response accessible worldwide",
+  "globalImpact.verifiedResponders": "Verified Responders",
+  "globalImpact.countriesCovered": "Countries Covered",
+  "globalImpact.languagesSupported": "Languages Supported",
+  "globalImpact.alwaysAvailable": "Always Available",
+  "footer.description": "Connecting people in crisis with verified responders worldwide through AI-powered multilingual emergency translation.",
+  "footer.platform": "Platform",
+  "footer.resources": "Resources",
+  "footer.copyright": "© 2025 GlobeSoS. Built with ❤️ for global emergency response."
 }

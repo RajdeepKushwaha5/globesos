@@ -100,12 +100,10 @@ const translations = {
       rememberMe: "Recuérdame"
     },
     footer: {
-      copyright: "© 2025 GlobeSoS. Empoderando la respuesta de emergencias en todo el mundo.",
+      description: "Conectando personas en crisis con respondedores verificados en todo el mundo a través de traducción multilingüe de emergencias impulsada por IA.",
       platform: "Plataforma",
       resources: "Recursos",
-      description: "Plataforma multilingüe de traducción y coordinación de emergencias impulsada por IA que conecta respondedores de crisis en todo el mundo. Salvando vidas a través de fronteras.",
-      builtWith: "Construido con",
-      usingTech: "usando Next.js y AI SDK"
+      copyright: "© 2025 GlobeSoS. Construido con ❤️ para respuesta de emergencias global."
     },
     home: {
       emergencyResponseWithoutBorders: "Respuesta de emergencia sin fronteras",
@@ -145,14 +143,12 @@ const translations = {
       step4Desc: "Chatea con respondedores a través de traducción multilingüe en tiempo real hasta que llegue la ayuda."
     },
     globalImpact: {
-      title: "Construido para emergencias globales",
-      description: "Ya sea que seas un viajero en un país extranjero o enfrentes una crisis local, GlobeSoS te conecta con la ayuda adecuada al instante.",
+      title: "Impacto Global",
+      description: "Haciendo la respuesta de emergencias accesible en todo el mundo",
       verifiedResponders: "Respondedores Verificados",
       countriesCovered: "Países Cubiertos",
       languagesSupported: "Idiomas Soportados",
-      alwaysAvailable: "Siempre Disponible",
-      joinGlobalNetwork: "Únete a nuestra red global de respuesta de emergencias",
-      becomeResponder: "Conviértete en Respondedor"
+      alwaysAvailable: "Siempre Disponible"
     }
   },
   fr: { // French
@@ -185,37 +181,135 @@ const translations = {
     features: {
       title: "Technologie qui sauve des vies",
       description: "Outils d'IA avancés et de coordination en temps réel conçus pour la réponse d'urgence"
+    },
+    globalImpact: {
+      title: "Impact Global",
+      description: "Rendre la réponse d'urgence accessible dans le monde entier",
+      verifiedResponders: "Intervenants Vérifiés",
+      countriesCovered: "Pays Couvert",
+      languagesSupported: "Langues Supportées",
+      alwaysAvailable: "Toujours Disponible"
+    },
+    footer: {
+      description: "Connecter les personnes en crise avec des intervenants vérifiés dans le monde entier grâce à la traduction multilingue d'urgence alimentée par l'IA.",
+      platform: "Plateforme",
+      resources: "Ressources",
+      copyright: "© 2025 GlobeSoS. Construit avec ❤️ pour la réponse d'urgence mondiale."
     }
   },
   ru: { // Russian - For brevity, showing pattern
     navigation: { ...enData.navigation, home: "Главная", about: "О нас", map: "Карта" },
     emergency: { ...enData.emergency, sendSOS: "ОТПРАВИТЬ SOS" },
-    home: { ...enData.home, emergencyResponseWithoutBorders: "Экстренная помощь без границ" }
+    home: { ...enData.home, emergencyResponseWithoutBorders: "Экстренная помощь без границ" },
+    globalImpact: {
+      title: "Глобальное воздействие",
+      description: "Обеспечение доступности экстренной помощи по всему миру",
+      verifiedResponders: "Проверенные спасатели",
+      countriesCovered: "Охваченные страны",
+      languagesSupported: "Поддерживаемые языки",
+      alwaysAvailable: "Всегда доступно"
+    },
+    footer: {
+      description: "Соединение людей в кризисных ситуациях с проверенными спасателями по всему миру через многоязычный перевод экстренных ситуаций на базе ИИ.",
+      platform: "Платформа",
+      resources: "Ресурсы",
+      copyright: "© 2025 GlobeSoS. Создано с ❤️ для глобального реагирования на чрезвычайные ситуации."
+    }
   },
   de: { // German
     navigation: { ...enData.navigation, home: "Startseite", about: "Über uns", map: "Karte" },
     emergency: { ...enData.emergency, sendSOS: "SOS SENDEN" },
-    home: { ...enData.home, emergencyResponseWithoutBorders: "Notfallhilfe ohne Grenzen" }
+    home: { ...enData.home, emergencyResponseWithoutBorders: "Notfallhilfe ohne Grenzen" },
+    globalImpact: {
+      title: "Globaler Impact",
+      description: "Notfallhilfe weltweit zugänglich machen",
+      verifiedResponders: "Verifizierte Helfer",
+      countriesCovered: "Abgedeckte Länder",
+      languagesSupported: "Unterstützte Sprachen",
+      alwaysAvailable: "Immer verfügbar"
+    },
+    footer: {
+      description: "Menschen in Krisen mit verifizierten Helfern weltweit durch KI-gestützte mehrsprachige Notfallübersetzung verbinden.",
+      platform: "Plattform",
+      resources: "Ressourcen",
+      copyright: "© 2025 GlobeSoS. Gebaut mit ❤️ für globale Notfallhilfe."
+    }
   },
   ja: { // Japanese
     navigation: { ...enData.navigation, home: "ホーム", about: "概要", map: "地図" },
     emergency: { ...enData.emergency, sendSOS: "SOS送信" },
-    home: { ...enData.home, emergencyResponseWithoutBorders: "国境を越えた緊急対応" }
+    home: { ...enData.home, emergencyResponseWithoutBorders: "国境を越えた緊急対応" },
+    globalImpact: {
+      title: "グローバルインパクト",
+      description: "世界中で緊急対応をアクセスしやすくする",
+      verifiedResponders: "検証済みレスポンダー",
+      countriesCovered: "カバー国数",
+      languagesSupported: "サポート言語",
+      alwaysAvailable: "常に利用可能"
+    },
+    footer: {
+      description: "AIを活用した多言語緊急翻訳を通じて、世界中の危機的状況にある人々と検証済みレスポンダーをつなぐ。",
+      platform: "プラットフォーム",
+      resources: "リソース",
+      copyright: "© 2025 GlobeSoS. グローバル緊急対応のために ❤️ で構築。"
+    }
   },
   zh: { // Chinese
     navigation: { ...enData.navigation, home: "首页", about: "关于", map: "地图" },
     emergency: { ...enData.emergency, sendSOS: "发送SOS" },
-    home: { ...enData.home, emergencyResponseWithoutBorders: "无国界紧急响应" }
+    home: { ...enData.home, emergencyResponseWithoutBorders: "无国界紧急响应" },
+    globalImpact: {
+      title: "全球影响",
+      description: "让紧急响应在世界各地都可访问",
+      verifiedResponders: "已验证响应者",
+      countriesCovered: "覆盖国家",
+      languagesSupported: "支持语言",
+      alwaysAvailable: "始终可用"
+    },
+    footer: {
+      description: "通过AI驱动的多语言紧急翻译，将危机中的人与世界各地的已验证响应者连接起来。",
+      platform: "平台",
+      resources: "资源",
+      copyright: "© 2025 GlobeSoS. 用 ❤️ 为全球紧急响应而建。"
+    }
   },
   ar: { // Arabic
     navigation: { ...enData.navigation, home: "الرئيسية", about: "حول", map: "خريطة" },
     emergency: { ...enData.emergency, sendSOS: "إرسال SOS" },
-    home: { ...enData.home, emergencyResponseWithoutBorders: "الاستجابة للطوارئ بلا حدود" }
+    home: { ...enData.home, emergencyResponseWithoutBorders: "الاستجابة للطوارئ بلا حدود" },
+    globalImpact: {
+      title: "التأثير العالمي",
+      description: "جعل الاستجابة للطوارئ متاحة في جميع أنحاء العالم",
+      verifiedResponders: "المستجيبون المعتمدون",
+      countriesCovered: "الدول المغطاة",
+      languagesSupported: "اللغات المدعومة",
+      alwaysAvailable: "متاح دائمًا"
+    },
+    footer: {
+      description: "ربط الأشخاص في الأزمات بالمستجيبين المعتمدين في جميع أنحاء العالم من خلال ترجمة الطوارئ متعددة اللغات المعتمدة على الذكاء الاصطناعي.",
+      platform: "المنصة",
+      resources: "الموارد",
+      copyright: "© 2025 GlobeSoS. مبني بـ ❤️ للاستجابة العالمية للطوارئ."
+    }
   },
   ko: { // Korean
     navigation: { ...enData.navigation, home: "홈", about: "소개", map: "지도" },
     emergency: { ...enData.emergency, sendSOS: "SOS 보내기" },
-    home: { ...enData.home, emergencyResponseWithoutBorders: "국경 없는 긴급 대응" }
+    home: { ...enData.home, emergencyResponseWithoutBorders: "국경 없는 긴급 대응" },
+    globalImpact: {
+      title: "글로벌 영향",
+      description: "전 세계적으로 긴급 대응을 접근 가능하게 만들기",
+      verifiedResponders: "검증된 응답자",
+      countriesCovered: "커버 국가",
+      languagesSupported: "지원 언어",
+      alwaysAvailable: "항상 사용 가능"
+    },
+    footer: {
+      description: "AI 기반 다국어 긴급 번역을 통해 전 세계 위기 상황에 있는 사람들과 검증된 응답자를 연결합니다.",
+      platform: "플랫폼",
+      resources: "리소스",
+      copyright: "© 2025 GlobeSoS. 글로벌 긴급 대응을 위해 ❤️로 구축."
+    }
   }
 };
 
