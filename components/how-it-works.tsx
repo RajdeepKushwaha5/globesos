@@ -39,8 +39,7 @@ export function HowItWorks() {
     <section className="py-24 bg-background relative overflow-hidden">
       <div className="absolute top-20 right-0 w-96 h-96 bg-primary/10 rounded-full blur-3xl animate-pulse" />
       <div
-        className="absolute bottom-20 left-0 w-96 h-96 bg-secondary/10 rounded-full blur-3xl animate-pulse"
-        style={{ animationDelay: "1s" }}
+        className="absolute bottom-20 left-0 w-96 h-96 bg-secondary/10 rounded-full blur-3xl animate-pulse-delayed"
       />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">

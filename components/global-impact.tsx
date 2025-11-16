@@ -21,17 +21,35 @@ export function GlobalImpact() {
     const fetchStats = async () => {
       try {
         const response = await fetch('/api/stats')
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`)
+        }
         const data = await response.json()
-        if (data.success) {
+        if (data.success && data.stats) {
           setStats({
             verifiedResponders: data.stats.verifiedResponders || 15234,
             countriesCovered: data.stats.countriesCovered || 187,
             languagesSupported: data.stats.languages || 100,
             availability: "24/7"
           })
+        } else {
+          // Use fallback values if API doesn't return expected format
+          setStats({
+            verifiedResponders: 15234,
+            countriesCovered: 187,
+            languagesSupported: 100,
+            availability: "24/7"
+          })
         }
       } catch (error) {
-        console.error('Failed to fetch stats:', error)
+        console.warn('Failed to fetch stats, using defaults:', error)
+        // Use fallback values on any error
+        setStats({
+          verifiedResponders: 15234,
+          countriesCovered: 187,
+          languagesSupported: 100,
+          availability: "24/7"
+        })
       }
     }
 

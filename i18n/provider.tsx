@@ -42,10 +42,34 @@ const STORAGE_KEY = 'globesos-locale'
 const GEO_CACHE_KEY = 'globesos-geo-locale'
 const GEO_CACHE_DURATION = 24 * 60 * 60 * 1000 // 24 hours
 
+// Fallback English translations - always available
+const ENGLISH_TRANSLATIONS: Record<string, string> = {
+  "navigation.home": "Home",
+  "navigation.about": "About",
+  "navigation.map": "Emergency Map",
+  "navigation.responders": "NGOs & Hospitals",
+  "navigation.contact": "Contact",
+  "navigation.docs": "Documentation",
+  "navigation.safety": "Safety Guidelines",
+  "navigation.support": "Contact Support",
+  "navigation.join": "Join Network",
+  "navigation.portal": "Responder Portal",
+  "navigation.dashboard": "Dashboard",
+  "navigation.login": "Login",
+  "navigation.register": "Register",
+  "navigation.logout": "Logout",
+  "home.hero.title": "Global Emergency Response Platform",
+  "home.hero.subtitle": "AI-driven multilingual emergency translation and coordination",
+  "home.hero.cta.emergency": "Send Emergency Alert",
+  "home.hero.cta.join": "Join as Responder",
+  "home.emergencyResponseWithoutBorders": "Emergency Response Without Borders",
+  "home.aiPoweredPlatformDescription": "AI-powered multilingual emergency response platform connecting people in crisis with verified responders worldwide"
+}
+
 export function I18nProvider({ children, defaultLocale: initialLocale = defaultLocale }: I18nProviderProps) {
   const [locale, setLocaleState] = useState<string>(initialLocale)
   const [isLoading, setIsLoading] = useState(false)
-  const [translations, setTranslations] = useState<Record<string, string>>({})
+  const [translations, setTranslations] = useState<Record<string, string>>(ENGLISH_TRANSLATIONS)
 
   /**
    * Initialize locale from storage or detection
@@ -68,7 +92,8 @@ export function I18nProvider({ children, defaultLocale: initialLocale = defaultL
         return
       }
 
-      // 3. Fallback to default
+      // 3. Fallback to default - load immediately
+      setLocaleState(initialLocale)
       await loadTranslations(initialLocale)
     }
 
@@ -98,18 +123,36 @@ export function I18nProvider({ children, defaultLocale: initialLocale = defaultL
   const loadTranslations = async (localeCode: string) => {
     setIsLoading(true)
     try {
+      // For English, use immediate fallback to ensure it always works
+      if (localeCode === 'en') {
+        setTranslations(ENGLISH_TRANSLATIONS)
+        setIsLoading(false)
+        return
+      }
+      
+      // Try to fetch from server for other languages
       const response = await fetch(`/i18n/locales/${localeCode}.json`)
+      
       if (response.ok) {
         const data = await response.json()
         setTranslations(data)
       } else {
-        console.warn(`Failed to load translations for ${localeCode}`)
+        // Load fallback translations
+        await loadFallbackTranslations(localeCode)
       }
     } catch (error) {
-      console.error(`Error loading translations for ${localeCode}:`, error)
+      // Load fallback translations
+      await loadFallbackTranslations(localeCode)
     } finally {
       setIsLoading(false)
     }
+  }
+
+  /**
+   * Load fallback translations (hardcoded English)
+   */
+  const loadFallbackTranslations = async (localeCode: string) => {
+    setTranslations(ENGLISH_TRANSLATIONS)
   }
 
   /**
@@ -160,11 +203,17 @@ export function I18nProvider({ children, defaultLocale: initialLocale = defaultL
     if (value) {
       return value
     }
-
+    
     // Then check cache (for flat keys)
     if (!key.includes('.')) {
       const cached = lingoService['getCached'](key, locale)
       if (cached) return cached
+    }
+
+    // Finally check English fallback translations
+    const englishValue = ENGLISH_TRANSLATIONS[key]
+    if (englishValue) {
+      return englishValue
     }
 
     // Return fallback or key

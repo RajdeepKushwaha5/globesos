@@ -8,5 +8,4 @@ const nextConfig = {
   },
 }
 
-// Temporarily disable Lingo.dev wrapper until import issue is resolved
 export default nextConfig

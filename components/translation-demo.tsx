@@ -31,16 +31,32 @@ export function TranslationDemo() {
     const fetchStats = async () => {
       try {
         const response = await fetch('/api/stats')
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`)
+        }
         const data = await response.json()
-        if (data.success) {
+        if (data.success && data.stats) {
           setStats({
             languages: data.stats.languages || 100,
             avgTime: data.stats.avgTranslationTime || 0.8,
             accuracy: data.stats.translationAccuracy || 99
           })
+        } else {
+          // Use fallback values if API doesn't return expected format
+          setStats({
+            languages: 100,
+            avgTime: 0.8,
+            accuracy: 99
+          })
         }
       } catch (error) {
-        console.error('Failed to fetch stats:', error)
+        console.warn('Failed to fetch stats, using defaults:', error)
+        // Use fallback values on any error
+        setStats({
+          languages: 100,
+          avgTime: 0.8,
+          accuracy: 99
+        })
       } finally {
         setStatsLoading(false)
       }
@@ -76,7 +92,6 @@ export function TranslationDemo() {
       }
       
       const translateData = await translateRes.json()
-      console.log("Lingo.dev translation response:", translateData)
       
       // Extract translated text from Lingo.dev response
       const translated = translateData.translatedText || translateData.text || inputText

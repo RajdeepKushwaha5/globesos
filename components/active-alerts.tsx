@@ -38,7 +38,6 @@ export function ActiveAlerts() {
           filter: `status=in.(active,responding)`,
         },
         (payload) => {
-          console.log('Alert change received:', payload)
           if (payload.eventType === 'INSERT') {
             setAlerts(prev => [payload.new as Alert, ...prev])
           } else if (payload.eventType === 'UPDATE') {

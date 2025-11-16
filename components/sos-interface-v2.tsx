@@ -198,8 +198,6 @@ export function SOSInterfaceV2() {
           quickSOS: quick
         }
       }
-      
-      console.log('Sending SOS alert:', { ...alertData, message: alertData.message.substring(0, 50) })
 
       // Send to API with timeout
       const controller = new AbortController()
@@ -228,7 +226,6 @@ export function SOSInterfaceV2() {
       }
 
       const result = await response.json()
-      console.log('SOS alert created successfully:', result)
       setAlertId(result.alert?.id || null)
 
       // Activate SOS mode

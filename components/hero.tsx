@@ -21,17 +21,35 @@ export function Hero() {
     const fetchStats = async () => {
       try {
         const response = await fetch('/api/stats')
+        if (!response.ok) {
+          throw new Error(`HTTP error! status: ${response.status}`)
+        }
         const data = await response.json()
-        if (data.success) {
+        if (data.success && data.stats) {
           setStats({
-            languages: data.stats.languages,
-            responseTime: data.stats.responseTime,
+            languages: data.stats.languages || 100,
+            responseTime: data.stats.responseTime || 2,
+            availability: "24/7",
+            coverage: "Global"
+          })
+        } else {
+          // Use fallback values if API doesn't return expected format
+          setStats({
+            languages: 100,
+            responseTime: 2,
             availability: "24/7",
             coverage: "Global"
           })
         }
       } catch (error) {
-        console.error('Failed to fetch stats:', error)
+        console.warn('Failed to fetch stats, using defaults:', error)
+        // Use fallback values on any error
+        setStats({
+          languages: 100,
+          responseTime: 2,
+          availability: "24/7",
+          coverage: "Global"
+        })
       }
     }
 
@@ -49,8 +67,7 @@ export function Hero() {
 
       <div className="absolute top-20 right-20 w-72 h-72 bg-primary/20 rounded-full blur-3xl animate-float" />
       <div
-        className="absolute bottom-20 left-20 w-96 h-96 bg-secondary/20 rounded-full blur-3xl animate-float"
-        style={{ animationDelay: "1s" }}
+        className="absolute bottom-20 left-20 w-96 h-96 bg-secondary/20 rounded-full blur-3xl animate-float-delayed"
       />
 
       <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32">

@@ -37,60 +37,56 @@ export function RealTimeNotifications({ userId }: { userId?: string }) {
     if (userId) {
       fetchNotifications()
 
-      // Subscribe to real-time notifications
-      const channel = supabase
-        .channel('notifications')
-        .on(
-          'postgres_changes',
-          {
-            event: 'INSERT',
-            schema: 'public',
-            table: 'notifications',
-            filter: `user_id=eq.${userId}`,
-          },
-          (payload) => {
-            const newNotification = payload.new as Notification
-            setNotifications(prev => [newNotification, ...prev])
-            setUnreadCount(prev => prev + 1)
+      // Skip real-time subscription for demo users
+      if (!userId.startsWith('demo-user-')) {
+        // Subscribe to real-time notifications
+        const channel = supabase
+          .channel('notifications')
+          .on(
+            'postgres_changes',
+            {
+              event: 'INSERT',
+              schema: 'public',
+              table: 'notifications',
+              filter: `user_id=eq.${userId}`,
+            },
+            (payload) => {
+              const newNotification = payload.new as Notification
+              setNotifications(prev => [newNotification, ...prev])
+              setUnreadCount(prev => prev + 1)
 
-            // Show browser notification if permission granted
-            if (Notification.permission === 'granted') {
-              new Notification(newNotification.title, {
-                body: newNotification.message,
-                icon: '/icon-192x192.png',
-                tag: 'globesos-notification',
-              })
+              // Show browser notification if permission granted
+              if (Notification.permission === 'granted') {
+                new Notification(newNotification.title, {
+                  body: newNotification.message,
+                  icon: '/icon-192x192.png',
+                  tag: 'globesos-notification',
+                })
+              }
             }
-          }
-        )
-        .subscribe()
+          )
+          .subscribe()
 
-      return () => {
-        supabase.removeChannel(channel)
+        return () => {
+          supabase.removeChannel(channel)
+        }
       }
     }
   }, [userId])
 
   // Auto-enable push notifications when user logs in (if permission already granted)
   useEffect(() => {
-    if (userId && isSupported && permission === 'granted' && !isSubscribed) {
+    if (userId && !userId.startsWith('demo-user-') && isSupported && permission === 'granted' && !isSubscribed) {
       // Automatically subscribe if permission was already granted
-      subscribe().catch(err => console.error('Auto-subscribe failed:', err))
+      subscribe().catch(err => console.warn('Auto-subscribe failed:', err))
     }
   }, [userId, isSupported, permission, isSubscribed])
 
   const fetchNotifications = async () => {
     try {
-      const { data, error } = await supabase
-        .from('notifications')
-        .select('*')
-        .eq('user_id', userId)
-        .order('created_at', { ascending: false })
-        .limit(20)
-
-      if (error) {
-        console.error('Error fetching notifications:', error)
-        // Use mock notifications as fallback
+      // Only fetch if we have a real user (not demo)
+      if (!userId || userId.startsWith('demo-user-')) {
+        // Use mock notifications for demo users
         const mockNotifications: Notification[] = [
           {
             id: '1',
@@ -107,24 +103,72 @@ export function RealTimeNotifications({ userId }: { userId?: string }) {
         return
       }
 
+      const { data, error } = await supabase
+        .from('notifications')
+        .select('*')
+        .eq('user_id', userId)
+        .order('created_at', { ascending: false })
+        .limit(20)
+
+      if (error) {
+        console.warn('Error fetching notifications from database:', error.message || error)
+        // Use mock notifications as fallback
+        const mockNotifications: Notification[] = [
+          {
+            id: '1',
+            title: 'Connection Issue',
+            message: 'Unable to load notifications. Using demo data.',
+            type: 'warning',
+            priority: 'normal',
+            read: false,
+            created_at: new Date().toISOString()
+          }
+        ]
+        setNotifications(mockNotifications)
+        setUnreadCount(1)
+        return
+      }
+
       setNotifications(data || [])
       setUnreadCount((data || []).filter(n => !n.read).length)
     } catch (error) {
-      console.error('Error fetching notifications:', error)
-      setNotifications([])
-      setUnreadCount(0)
+      console.warn('Network error fetching notifications:', error)
+      // Use mock notifications as fallback
+      const mockNotifications: Notification[] = [
+        {
+          id: '1',
+          title: 'Network Issue',
+          message: 'Unable to connect to notification service.',
+          type: 'warning',
+          priority: 'normal',
+          read: false,
+          created_at: new Date().toISOString()
+        }
+      ]
+      setNotifications(mockNotifications)
+      setUnreadCount(1)
     }
   }
 
   const markAsRead = async (notificationId: string) => {
     try {
+      // Skip database update for demo users
+      if (!userId || userId.startsWith('demo-user-')) {
+        // Just update UI for demo
+        setNotifications(prev =>
+          prev.map(n => n.id === notificationId ? { ...n, read: true } : n)
+        )
+        setUnreadCount(prev => Math.max(0, prev - 1))
+        return
+      }
+
       const { error } = await supabase
         .from('notifications')
         .update({ read: true })
         .eq('id', notificationId)
 
       if (error) {
-        console.error('Error marking notification as read:', error)
+        console.warn('Error marking notification as read:', error.message || error)
       }
 
       // Update UI optimistically even if DB update fails
@@ -133,12 +177,23 @@ export function RealTimeNotifications({ userId }: { userId?: string }) {
       )
       setUnreadCount(prev => Math.max(0, prev - 1))
     } catch (error) {
-      console.error('Error marking notification as read:', error)
+      console.warn('Network error marking notification as read:', error)
+      // Still update UI optimistically
+      setNotifications(prev =>
+        prev.map(n => n.id === notificationId ? { ...n, read: true } : n)
+      )
+      setUnreadCount(prev => Math.max(0, prev - 1))
     }
   }
 
   const deleteNotification = async (notificationId: string) => {
     try {
+      // Skip database operation for demo users
+      if (!userId || userId.startsWith('demo-user-')) {
+        setNotifications(prev => prev.filter(n => n.id !== notificationId))
+        return
+      }
+
       const { error } = await supabase
         .from('notifications')
         .delete()
@@ -148,7 +203,7 @@ export function RealTimeNotifications({ userId }: { userId?: string }) {
 
       setNotifications(prev => prev.filter(n => n.id !== notificationId))
     } catch (error) {
-      console.error('Error deleting notification:', error)
+      console.warn('Error deleting notification:', error)
     }
   }
 

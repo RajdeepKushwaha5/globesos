@@ -3,6 +3,16 @@
 
 @custom-variant dark (&:is(.dark *));
 
+.animate-float-delayed {
+  animation: float 6s ease-in-out infinite;
+  animation-delay: 1s;
+}
+
+.animate-pulse-delayed {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+  animation-delay: 1s;
+}
+
 :root {
   /* Premium color palette with sophisticated gradients */
   /* Neutral base - warm whites and deep blacks */
@@ -258,12 +268,14 @@
 /* Glassmorphism utility classes */
 .glass {
   background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(12px) saturate(180%);
   backdrop-filter: blur(12px) saturate(180%);
   border: 1px solid var(--glass-border);
 }
 
 .glass-strong {
   background: var(--glass-bg);
+  -webkit-backdrop-filter: blur(20px) saturate(200%);
   backdrop-filter: blur(20px) saturate(200%);
   border: 1px solid var(--glass-border);
 }

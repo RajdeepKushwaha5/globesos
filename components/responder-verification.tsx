@@ -198,7 +198,6 @@ export function ResponderVerification({ userId }: ResponderVerificationProps) {
   const handleContactResponder = (responder: Responder) => {
     setSelectedResponder(responder)
     // In a real implementation, this would initiate contact (call, chat, etc.)
-    console.log('Contacting responder:', responder.name)
   }
 
   if (loading) {

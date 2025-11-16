@@ -38,9 +38,6 @@ export function ResponderStatus() {
       )
       .subscribe((status) => {
         // Silently handle subscription errors
-        if (status === 'SUBSCRIBED') {
-          console.log('Realtime subscription active')
-        }
       })
 
     // Refresh data every 30 seconds as fallback

@@ -47,7 +47,6 @@ export function MapView() {
           table: 'responder_locations'
         },
         (payload) => {
-          console.log('Responder location update:', payload)
           if (payload.eventType === 'INSERT' || payload.eventType === 'UPDATE') {
             if (userLocation) {
               fetchNearbyResponders(userLocation)
@@ -89,8 +88,6 @@ export function MapView() {
 
   const fetchNearbyResponders = async (location: Location) => {
     try {
-      console.log('Fetching responders for location:', location)
-
       // First, test basic Supabase connectivity
       const { data: testData, error: testError } = await supabase
         .from('responders')
@@ -101,8 +98,6 @@ export function MapView() {
         console.error('Supabase connectivity test failed:', testError)
         throw new Error(`Supabase connection failed: ${testError.message}`)
       }
-
-      console.log('Supabase connectivity OK, fetching responder locations...')
 
       // Fetch real responder data from Supabase
       const { data: responderData, error } = await supabase
@@ -149,18 +144,14 @@ export function MapView() {
         if (simpleError) {
           console.error('Even simple query failed:', simpleError)
         } else {
-          console.log('Simple query worked, data:', simpleData)
         }
 
         // Fallback to API call if Supabase fails
-        console.log('Falling back to API call...')
         const response = await fetch(`/api/responders?lat=${location.lat}&lng=${location.lng}`)
         const data = await response.json()
         setResponders(data.responders || [])
         return
       }
-
-      console.log('Successfully fetched responder data:', responderData)
 
       // Transform data and calculate distances
       const transformedResponders: Responder[] = (responderData || []).map((item: any) => {
