@@ -187,7 +187,7 @@ const baseTranslations = {
 }
 
 // Save base English translations
-const outputDir = path.join(__dirname, '../locales')
+const outputDir = path.join(__dirname, '../../public/i18n/locales')
 if (!fs.existsSync(outputDir)) {
   fs.mkdirSync(outputDir, { recursive: true })
 }
@@ -197,15 +197,15 @@ fs.writeFileSync(
   JSON.stringify(baseTranslations, null, 2)
 )
 
-console.log('✅ Extracted base translations to i18n/locales/en.json')
+console.log('✅ Extracted base translations to public/i18n/locales/en.json')
 console.log(`📊 Total keys: ${Object.keys(baseTranslations).length}`)
 
 // Create extraction manifest for Lingo.dev CLI
 const manifest = {
   sourceLocale: 'en',
   locales: ['es', 'fr', 'ru', 'de', 'ja', 'zh', 'ar', 'ko'],
-  sourceFile: 'i18n/locales/en.json',
-  outputPattern: 'i18n/locales/{locale}.json',
+  sourceFile: 'public/i18n/locales/en.json',
+  outputPattern: 'public/i18n/locales/{locale}.json',
   namespace: 'common',
   context: 'emergency_response',
   glossary: {

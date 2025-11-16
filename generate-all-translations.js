@@ -223,14 +223,22 @@ const translations = {
 for (const [lang, data] of Object.entries(translations)) {
   const merged = JSON.parse(JSON.stringify(enData)); // Deep clone
 
-  // Merge translations
-  Object.keys(data).forEach(category => {
-    if (merged[category]) {
-      merged[category] = { ...merged[category], ...data[category] };
-    } else {
-      merged[category] = data[category];
+  // Convert nested translations to flat keys and merge
+  function flattenTranslations(obj, prefix = '') {
+    const result = {};
+    for (const [key, value] of Object.entries(obj)) {
+      const fullKey = prefix ? `${prefix}.${key}` : key;
+      if (typeof value === 'object' && value !== null) {
+        Object.assign(result, flattenTranslations(value, fullKey));
+      } else {
+        result[fullKey] = value;
+      }
     }
-  });
+    return result;
+  }
+
+  const flatTranslations = flattenTranslations(data);
+  Object.assign(merged, flatTranslations);
 
   // Write to both locations
   const publicPath = path.join(__dirname, 'public', 'i18n', 'locales', `${lang}.json`);

@@ -19,8 +19,8 @@ const fs = require('fs')
 const path = require('path')
 
 const LOCALES = ['es', 'fr', 'ru', 'de', 'ja', 'zh', 'ar', 'ko']
-const SOURCE_FILE = path.join(__dirname, '../locales/en.json')
-const OUTPUT_DIR = path.join(__dirname, '../locales')
+const SOURCE_FILE = path.join(__dirname, '../../public/i18n/locales/en.json')
+const OUTPUT_DIR = path.join(__dirname, '../../public/i18n/locales')
 
 // Glossary for emergency response terminology
 const GLOSSARY = {
@@ -135,4 +135,4 @@ if (require.main === module) {
   })
 }
 
-module.exports = { translateWithLingo, translateLocale }
+module.exports = { translateLocale }
