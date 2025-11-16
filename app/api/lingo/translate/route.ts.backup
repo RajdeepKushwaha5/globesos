@@ -1,0 +1,262 @@
+import { NextResponse } from "next/server"
+import https from "https"
+import { generateText } from "ai"
+import { createOpenAI } from "@ai-sdk/openai"
+import { GoogleGenerativeAI } from "@google/generative-ai"
+
+// Create an agent that ignores SSL errors (for development only)
+const httpsAgent = new https.Agent({
+  rejectUnauthorized: false,
+})
+
+export async function POST(request: Request) {
+  try {
+    const { text, targetLang, sourceLang } = await request.json()
+
+    if (!text || !targetLang) {
+      return NextResponse.json(
+        { error: "Missing required fields: text and targetLang" },
+        { status: 400 }
+      )
+    }
+
+    // If target language is same as source, return as-is
+    if (targetLang === sourceLang) {
+      return NextResponse.json({
+        originalText: text,
+        translatedText: text,
+        sourceLang,
+        targetLang,
+        confidence: 1.0,
+        provider: "none",
+      })
+    }
+
+    const apiKey = process.env.LINGO_API_KEY || process.env.NEXT_PUBLIC_LINGO_API_KEY
+
+    // Language names mapping
+    const languageNames: Record<string, string> = {
+      es: "Spanish", fr: "French", de: "German", it: "Italian", pt: "Portuguese",
+      ru: "Russian", ja: "Japanese", ko: "Korean", zh: "Chinese", ar: "Arabic",
+      hi: "Hindi", nl: "Dutch", pl: "Polish", tr: "Turkish", sv: "Swedish",
+      en: "English"
+    }
+
+    // If no Lingo key, try AI-based translation immediately
+    if (!apiKey) {
+      console.log("Lingo API key not found, using AI translation...")
+      
+      try {
+        // Try Google AI first (since it's configured)
+        const googleKey = process.env.GOOGLE_AI_API_KEY
+        
+        if (googleKey) {
+          const genAI = new GoogleGenerativeAI(googleKey)
+          const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" })
+          
+          const targetLangName = languageNames[targetLang] || targetLang
+          const prompt = `Translate the following text to ${targetLangName}. Return ONLY the translation, no explanations or additional text.\n\nText: ${text}`
+          
+          const result = await model.generateContent(prompt)
+          const response = await result.response
+          const aiTranslation = response.text().trim()
+          
+          const translationResult = {
+            originalText: text,
+            translatedText: aiTranslation,
+            sourceLang: sourceLang || "auto",
+            targetLang,
+            confidence: 0.95,
+            provider: "google-ai",
+          }
+          
+          console.log("Google AI Translation result:", { original: text, translated: aiTranslation, targetLang })
+          
+          return NextResponse.json(translationResult)
+        }
+        
+        // Fallback to OpenAI/Groq
+        const openaiKey = process.env.OPENAI_API_KEY
+        const groqKey = process.env.GROQ_API_KEY
+        
+        if (openaiKey || groqKey) {
+          const provider = openaiKey 
+            ? createOpenAI({ apiKey: openaiKey })
+            : createOpenAI({ 
+                apiKey: groqKey,
+                baseURL: "https://api.groq.com/openai/v1"
+              })
+          
+          const model = provider(openaiKey ? "gpt-4o-mini" : "llama-3.1-70b-versatile")
+          const targetLangName = languageNames[targetLang] || targetLang
+          
+          const { text: aiTranslation } = await generateText({
+            model,
+            prompt: `Translate the following text to ${targetLangName}. Return ONLY the translation, no explanations or additional text.\n\nText: ${text}`,
+            maxTokens: 500,
+          })
+          
+          const result = {
+            originalText: text,
+            translatedText: aiTranslation.trim(),
+            sourceLang: sourceLang || "auto",
+            targetLang,
+            confidence: 0.9,
+            provider: "openai",
+          }
+          
+          console.log("OpenAI Translation result:", { original: text, translated: aiTranslation.trim(), targetLang })
+          
+          return NextResponse.json(result)
+        }
+      } catch (aiError: any) {
+        console.error("AI translation error:", aiError)
+      }
+      
+      // If no AI key either, return original text
+      console.error("No translation API keys configured")
+      return NextResponse.json({
+        originalText: text,
+        translatedText: text,
+        sourceLang: sourceLang || "en",
+        targetLang,
+        confidence: 0,
+        provider: "fallback",
+        error: "API key not configured",
+      })
+    }
+
+    // Translate using Lingo.dev REST API
+    try {
+      const response = await fetch("https://engine.lingo.dev/v1/translate", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+          Authorization: `Bearer ${apiKey}`,
+        },
+        body: JSON.stringify({
+          text,
+          sourceLocale: sourceLang || undefined,
+          targetLocale: targetLang,
+        }),
+        // @ts-ignore - agent not in standard fetch types but works in Node.js
+        agent: httpsAgent,
+        signal: AbortSignal.timeout(15000), // 15 second timeout
+      })
+
+      if (!response.ok) {
+        throw new Error(`Lingo.dev API error: ${response.status} ${response.statusText}`)
+      }
+
+      const data = await response.json()
+      const translatedText = data.translatedText || data.text || text
+
+      return NextResponse.json({
+        originalText: text,
+        translatedText,
+        sourceLang: sourceLang || data.sourceLocale || "auto",
+        targetLang,
+        confidence: 1.0,
+        provider: "lingo.dev",
+      })
+    } catch (lingoError: any) {
+      console.error("Lingo.dev API error:", lingoError.message || lingoError)
+      
+      // Fallback to AI-based translation
+      try {
+        console.log("Attempting AI-based translation fallback...")
+        
+        // Try Google AI first
+        const googleKey = process.env.GOOGLE_AI_API_KEY
+        
+        if (googleKey) {
+          const genAI = new GoogleGenerativeAI(googleKey)
+          const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" })
+          
+          const languageNames: Record<string, string> = {
+            es: "Spanish", fr: "French", de: "German", it: "Italian", pt: "Portuguese",
+            ru: "Russian", ja: "Japanese", ko: "Korean", zh: "Chinese", ar: "Arabic",
+            hi: "Hindi", nl: "Dutch", pl: "Polish", tr: "Turkish", sv: "Swedish",
+            en: "English"
+          }
+          
+          const targetLangName = languageNames[targetLang] || targetLang
+          const prompt = `Translate the following text to ${targetLangName}. Return ONLY the translation, no explanations or additional text.\n\nText: ${text}`
+          
+          const result = await model.generateContent(prompt)
+          const response = await result.response
+          const aiTranslation = response.text().trim()
+          
+          console.log("Google AI fallback translation:", { original: text, translated: aiTranslation })
+          
+          return NextResponse.json({
+            originalText: text,
+            translatedText: aiTranslation,
+            sourceLang: sourceLang || "auto",
+            targetLang,
+            confidence: 0.95,
+            provider: "google-ai-fallback",
+          })
+        }
+        
+        // Try OpenAI/Groq as second fallback
+        const openaiKey = process.env.OPENAI_API_KEY
+        const groqKey = process.env.GROQ_API_KEY
+        
+        if (openaiKey || groqKey) {
+          const provider = openaiKey 
+            ? createOpenAI({ apiKey: openaiKey })
+            : createOpenAI({ 
+                apiKey: groqKey,
+                baseURL: "https://api.groq.com/openai/v1"
+              })
+          
+          const model = provider(openaiKey ? "gpt-4o-mini" : "llama-3.1-70b-versatile")
+          
+          const languageNames: Record<string, string> = {
+            es: "Spanish", fr: "French", de: "German", it: "Italian", pt: "Portuguese",
+            ru: "Russian", ja: "Japanese", ko: "Korean", zh: "Chinese", ar: "Arabic",
+            hi: "Hindi", nl: "Dutch", pl: "Polish", tr: "Turkish", sv: "Swedish",
+            en: "English"
+          }
+          
+          const targetLangName = languageNames[targetLang] || targetLang
+          
+          const { text: aiTranslation } = await generateText({
+            model,
+            prompt: `Translate the following text to ${targetLangName}. Return ONLY the translation, no explanations or additional text.\n\nText: ${text}`,
+            maxTokens: 500,
+          })
+          
+          return NextResponse.json({
+            originalText: text,
+            translatedText: aiTranslation.trim(),
+            sourceLang: sourceLang || "auto",
+            targetLang,
+            confidence: 0.9,
+            provider: "ai-fallback",
+          })
+        }
+      } catch (aiError: any) {
+        console.error("AI translation fallback error:", aiError)
+      }
+      
+      // Final fallback to original text if all fails
+      return NextResponse.json({
+        originalText: text,
+        translatedText: text,
+        sourceLang: sourceLang || "en",
+        targetLang,
+        confidence: 0,
+        provider: "fallback",
+        error: lingoError.message || "Translation failed",
+      })
+    }
+  } catch (error: any) {
+    console.error("Translation API error:", error)
+    return NextResponse.json(
+      { error: "Translation failed", details: error.message },
+      { status: 500 }
+    )
+  }
+}

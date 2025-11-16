@@ -1,0 +1,22 @@
+{
+  "sourceLocale": "en",
+  "locales": [
+    "es",
+    "fr",
+    "ru",
+    "de",
+    "ja",
+    "zh",
+    "ar",
+    "ko"
+  ],
+  "sourceFile": "i18n/locales/en.json",
+  "outputPattern": "i18n/locales/{locale}.json",
+  "namespace": "common",
+  "context": "emergency_response",
+  "glossary": {
+    "GlobeSoS": "GlobeSoS",
+    "SOS": "SOS",
+    "Responder": "Responder"
+  }
+}
