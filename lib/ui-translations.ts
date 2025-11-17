@@ -76,7 +76,6 @@ export const translations: Record<string, Record<string, string>> = {
     // Additional UI keys
     view: "View",
     syncing: "Syncing",
-    close: "Close",
 
     // Emergency Types
     medicalEmergency: "Medical Emergency",
@@ -272,7 +271,6 @@ export const translations: Record<string, Record<string, string>> = {
     // Additional UI keys
     view: "Ver",
     syncing: "Sincronizando",
-    close: "Cerrar",
 
     // Emergency Types
     medicalEmergency: "Emergencia Médica",
@@ -414,7 +412,6 @@ export const translations: Record<string, Record<string, string>> = {
     // Additional UI keys
     view: "Voir",
     syncing: "Synchronisation",
-    close: "Fermer",
 
     // Emergency Types
     medicalEmergency: "Urgence Médicale",

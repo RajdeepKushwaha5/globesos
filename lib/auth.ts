@@ -128,7 +128,7 @@ export const login = async (email: string, password: string): Promise<Session | 
     return {
       user,
       token: data.session.access_token,
-      expiresAt: new Date(data.session.expires_at * 1000),
+      expiresAt: data.session.expires_at ? new Date(data.session.expires_at * 1000) : new Date(Date.now() + 3600000), // Default 1 hour
     }
   } catch (error) {
     console.error('Login error:', error)

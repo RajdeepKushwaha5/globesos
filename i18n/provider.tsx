@@ -123,14 +123,7 @@ export function I18nProvider({ children, defaultLocale: initialLocale = defaultL
   const loadTranslations = async (localeCode: string) => {
     setIsLoading(true)
     try {
-      // For English, use immediate fallback to ensure it always works
-      if (localeCode === 'en') {
-        setTranslations(ENGLISH_TRANSLATIONS)
-        setIsLoading(false)
-        return
-      }
-      
-      // Try to fetch from server for other languages
+      // Try to fetch from server for all languages
       const response = await fetch(`/i18n/locales/${localeCode}.json`)
       
       if (response.ok) {
@@ -149,9 +142,21 @@ export function I18nProvider({ children, defaultLocale: initialLocale = defaultL
   }
 
   /**
-   * Load fallback translations (hardcoded English)
+   * Load fallback translations (try English JSON, then hardcoded)
    */
   const loadFallbackTranslations = async (localeCode: string) => {
+    try {
+      // Try to load English translations as fallback
+      const response = await fetch('/i18n/locales/en.json')
+      if (response.ok) {
+        const data = await response.json()
+        setTranslations(data)
+        return
+      }
+    } catch (error) {
+      // Ignore and use hardcoded
+    }
+    // Use hardcoded English translations
     setTranslations(ENGLISH_TRANSLATIONS)
   }
 

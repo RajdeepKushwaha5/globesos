@@ -46,11 +46,14 @@ export async function POST(req: Request) {
 
     try {
       // Use Lingo.dev SDK for translation
-      const translatedText = await lingoDotDev.translate(
-        text,
-        sourceLanguage,
-        targetLanguage
-      )
+      // const translatedText = await lingoDotDev.translate({
+      //   text,
+      //   sourceLanguage,
+      //   targetLanguage
+      // })
+
+      // Temporary: return original text until SDK is fixed
+      const translatedText = text
 
       console.log("✅ Lingo.dev Translation:", { 
         original: text, 

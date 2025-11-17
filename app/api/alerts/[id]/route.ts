@@ -1,10 +1,12 @@
 import { NextResponse } from "next/server"
 
-export async function GET(request: Request, { params }: { params: { id: string } }) {
+export async function GET(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params
+    
     // For demo, return mock alert
     const alert = {
-      id: params.id,
+      id,
       status: "active",
       responders: [],
       userId: "user-123",
@@ -19,11 +21,12 @@ export async function GET(request: Request, { params }: { params: { id: string }
   }
 }
 
-export async function PATCH(request: Request, { params }: { params: { id: string } }) {
+export async function PATCH(request: Request, { params }: { params: Promise<{ id: string }> }) {
   try {
+    const { id } = await params
     const updates = await request.json()
 
-    console.log("[GlobeSoS] Updating alert:", params.id, updates)
+    console.log("[GlobeSoS] Updating alert:", id, updates)
 
     // In production: Update in database
     // await supabase.from('alerts').update(updates).eq('id', params.id)

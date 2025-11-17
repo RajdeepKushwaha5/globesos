@@ -2,6 +2,14 @@
 
 import { useState, useRef, useCallback } from 'react'
 
+// Extend window interface for speech recognition
+declare global {
+  interface Window {
+    SpeechRecognition: any
+    webkitSpeechRecognition: any
+  }
+}
+
 interface VoiceInputOptions {
   language?: string
   continuous?: boolean

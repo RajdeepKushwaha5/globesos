@@ -73,11 +73,11 @@ export async function GET(request: Request) {
           distance: Math.round(distance * 1000), // Convert to meters
           available: responder.available,
           verified: responder.verification_status === 'verified',
-          contact: responder.profiles?.email,
+          contact: responder.profiles?.[0]?.email,
           specializations: responder.specializations
         }
       })
-      .filter(Boolean)
+      .filter((r): r is NonNullable<typeof r> => r !== null)
       .sort((a, b) => a.distance - b.distance)
 
     return NextResponse.json({

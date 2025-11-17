@@ -18,10 +18,10 @@ export default function AboutPage() {
           {/* Header */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-16">
             <h1 className="text-5xl sm:text-6xl font-bold mb-6 text-foreground tracking-tight">
-              About <span className="gradient-text">GlobeSoS</span>
+              {t("about.title")}
             </h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              Breaking down language barriers in emergency response to save lives across borders
+              {t("about.subtitle")}
             </p>
           </motion.div>
 
@@ -35,17 +35,12 @@ export default function AboutPage() {
             <Card className="p-10 sm:p-14 glass-strong relative overflow-hidden">
               <div className="absolute inset-0 bg-gradient-to-br from-primary/5 via-transparent to-secondary/5" />
               <div className="relative">
-                <h2 className="text-3xl font-bold mb-6 text-foreground">Our Mission</h2>
+                <h2 className="text-3xl font-bold mb-6 text-foreground">{t("about.mission.title")}</h2>
                 <p className="text-lg text-muted-foreground leading-relaxed mb-4">
-                  GlobeSoS was founded on a simple yet powerful belief: language should never be a barrier to receiving
-                  emergency help. In crisis situations, every second counts, and communication challenges can mean the
-                  difference between life and death.
+                  {t("about.mission.description1")}
                 </p>
                 <p className="text-lg text-muted-foreground leading-relaxed">
-                  We've built the world's first AI-powered multilingual emergency coordination platform that instantly
-                  connects people in crisis with verified responders, regardless of language barriers. Our technology
-                  translates emergency communications in real-time across 100+ languages, ensuring that help arrives
-                  faster and more effectively.
+                  {t("about.mission.description2")}
                 </p>
               </div>
             </Card>
@@ -58,25 +53,25 @@ export default function AboutPage() {
             viewport={{ once: true }}
             className="mb-16"
           >
-            <h2 className="text-3xl font-bold mb-8 text-center text-foreground">Our Values</h2>
+            <h2 className="text-3xl font-bold mb-8 text-center text-foreground">{t("about.values.title")}</h2>
             <div className="grid md:grid-cols-3 gap-6">
               {[
                 {
                   icon: Heart,
-                  title: "Humanity First",
-                  description: "Every decision we make prioritizes human safety and dignity above all else.",
+                  title: t("about.values.humanity.title"),
+                  description: t("about.values.humanity.description"),
                   color: "text-red-500",
                 },
                 {
                   icon: Zap,
-                  title: "Speed Matters",
-                  description: "In emergencies, seconds count. We optimize for the fastest possible response times.",
+                  title: t("about.values.speed.title"),
+                  description: t("about.values.speed.description"),
                   color: "text-yellow-500",
                 },
                 {
                   icon: Globe,
-                  title: "Universal Access",
-                  description: "Emergency help should be accessible to everyone, regardless of location or language.",
+                  title: t("about.values.access.title"),
+                  description: t("about.values.access.description"),
                   color: "text-blue-500",
                 },
               ].map((value, i) => (
@@ -104,32 +99,28 @@ export default function AboutPage() {
             viewport={{ once: true }}
             className="mb-16"
           >
-            <h2 className="text-3xl font-bold mb-8 text-center text-foreground">How We Work</h2>
+            <h2 className="text-3xl font-bold mb-8 text-center text-foreground">{t("about.howWeWork.title")}</h2>
             <div className="grid md:grid-cols-2 gap-6">
               {[
                 {
                   icon: Shield,
-                  title: "Verified Network",
-                  description:
-                    "All responders undergo rigorous verification to ensure you're connected with legitimate NGOs, hospitals, and trained professionals.",
+                  title: t("about.howWeWork.network.title"),
+                  description: t("about.howWeWork.network.description"),
                 },
                 {
                   icon: Zap,
-                  title: "AI Translation",
-                  description:
-                    "Our advanced AI instantly translates emergency messages with context awareness, ensuring critical details are never lost in translation.",
+                  title: t("about.howWeWork.translation.title"),
+                  description: t("about.howWeWork.translation.description"),
                 },
                 {
                   icon: Users,
-                  title: "Coordinated Response",
-                  description:
-                    "Smart matching algorithms connect you with the most appropriate nearby responders based on location, availability, and expertise.",
+                  title: t("about.howWeWork.coordination.title"),
+                  description: t("about.howWeWork.coordination.description"),
                 },
                 {
                   icon: Award,
-                  title: "24/7 Availability",
-                  description:
-                    "Our global network ensures that help is always available, no matter where you are or what time emergency strikes.",
+                  title: t("about.howWeWork.availability.title"),
+                  description: t("about.howWeWork.availability.description"),
                 },
               ].map((item, i) => (
                 <motion.div
@@ -152,13 +143,13 @@ export default function AboutPage() {
           {/* Impact Stats */}
           <motion.div initial={{ opacity: 0, y: 20 }} whileInView={{ opacity: 1, y: 0 }} viewport={{ once: true }}>
             <Card className="p-10 sm:p-14 glass-strong text-center">
-              <h2 className="text-3xl font-bold mb-8 text-foreground">Our Impact</h2>
+              <h2 className="text-3xl font-bold mb-8 text-foreground">{t("about.impact.title")}</h2>
               <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
                 {[
-                  { value: "15,000+", label: "Verified Responders" },
-                  { value: "180+", label: "Countries" },
-                  { value: "100+", label: "Languages" },
-                  { value: "<2s", label: "Avg Response Time" },
+                  { value: "15,000+", label: t("about.impact.responders") },
+                  { value: "180+", label: t("about.impact.countries") },
+                  { value: "100+", label: t("about.impact.languages") },
+                  { value: "<2s", label: t("about.impact.responseTime") },
                 ].map((stat, i) => (
                   <div key={i}>
                     <div className="text-4xl sm:text-5xl font-bold gradient-text mb-2">{stat.value}</div>

@@ -41,7 +41,7 @@ export function MultilingualEmergencyAssistant() {
     'en', 'es', 'fr', 'ar', 'zh'
   ]);
 
-  const lingoService = LingoService.getInstance();
+  const lingoService = new LingoService();
 
   // Auto-detect language as user types
   useEffect(() => {

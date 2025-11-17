@@ -52,8 +52,8 @@ export default function ContactPage() {
     // Validate form
     if (!formData.name || !formData.email || !formData.category || !formData.subject || !formData.message) {
       toast({
-        title: 'Error',
-        description: 'Please fill in all required fields',
+        title: t('error', 'Error'),
+        description: t('contact.fillAllFields', 'Please fill in all required fields'),
         variant: 'destructive'
       })
       return
@@ -63,8 +63,8 @@ export default function ContactPage() {
     const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/
     if (!emailRegex.test(formData.email)) {
       toast({
-        title: 'Error',
-        description: 'Please enter a valid email address',
+        title: t('error', 'Error'),
+        description: t('contact.invalidEmail', 'Please enter a valid email address'),
         variant: 'destructive'
       })
       return
@@ -89,7 +89,7 @@ export default function ContactPage() {
       
       toast({
         title: 'Success!',
-        description: data.message || 'Your support request has been submitted. We\'ll respond within 24 hours.',
+        description: t('contact.submitSuccess', 'Your support request has been submitted. We\'ll respond within 24 hours.'),
       })
       
       // Reset form after 3 seconds
@@ -124,10 +124,10 @@ export default function ContactPage() {
           {/* Header */}
           <motion.div initial={{ opacity: 0, y: 20 }} animate={{ opacity: 1, y: 0 }} className="text-center mb-12">
             <h1 className="text-5xl font-bold mb-6 text-foreground tracking-tight">
-              {t('contactSupport', 'Contact Support')}
+              {t('contact.title', 'Contact Support')}
             </h1>
             <p className="text-xl text-muted-foreground max-w-3xl mx-auto leading-relaxed">
-              {t('contactSupportDesc', 'Our support team is available 24/7 to assist you. Choose your issue category and we\'ll route your request to the right team.')}
+              {t('contact.subtitle', 'Need help or have questions? We are here to help you.')}
             </p>
           </motion.div>
 
@@ -284,30 +284,30 @@ export default function ContactPage() {
               ) : (
                 <Card>
                   <CardHeader>
-                    <CardTitle>{t('submitSupportRequest', 'Submit a Support Request')}</CardTitle>
+                    <CardTitle>{t('contact.form.submit', 'Submit a Support Request')}</CardTitle>
                     <CardDescription>
-                      {t('fillFormBelow', 'Fill out the form below and our team will get back to you as soon as possible.')}
+                      {t('contact.subtitle', 'Need help or have questions? We are here to help you.')}
                     </CardDescription>
                   </CardHeader>
                   <CardContent>
                     <form onSubmit={handleSubmit} className="space-y-6">
                       <div className="grid sm:grid-cols-2 gap-6">
                         <div className="space-y-2">
-                          <Label htmlFor="name">{t('yourName', 'Your Name')} <span className="text-red-500">*</span></Label>
+                          <Label htmlFor="name">{t('contact.form.name', 'Name')} <span className="text-red-500">*</span></Label>
                           <Input
                             id="name"
-                            placeholder={t('namePlaceholder', 'John Doe')}
+                            placeholder={t('contact.form.namePlaceholder', 'Your full name')}
                             value={formData.name}
                             onChange={(e) => setFormData({ ...formData, name: e.target.value })}
                             required
                           />
                         </div>
                         <div className="space-y-2">
-                          <Label htmlFor="email">{t('emailAddress', 'Email Address')} <span className="text-red-500">*</span></Label>
+                          <Label htmlFor="email">{t('contact.form.email', 'Email')} <span className="text-red-500">*</span></Label>
                           <Input
                             id="email"
                             type="email"
-                            placeholder={t('emailPlaceholder', 'john@example.com')}
+                            placeholder={t('contact.form.emailPlaceholder', 'your.email@example.com')}
                             value={formData.email}
                             onChange={(e) => setFormData({ ...formData, email: e.target.value })}
                             required
@@ -316,7 +316,7 @@ export default function ContactPage() {
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor="category">{t('issueCategory', 'Issue Category')} <span className="text-red-500">*</span></Label>
+                        <Label htmlFor="category">{t('contact.form.category', 'Issue Category')} <span className="text-red-500">*</span></Label>
                         <Select
                           value={formData.category}
                           onValueChange={(value) => setFormData({ ...formData, category: value })}
@@ -381,10 +381,10 @@ export default function ContactPage() {
                       </div>
 
                       <div className="space-y-2">
-                        <Label htmlFor="message">{t('message', 'Message')} <span className="text-red-500">*</span></Label>
+                        <Label htmlFor="message">{t('contact.form.message', 'Message')} <span className="text-red-500">*</span></Label>
                         <Textarea
                           id="message"
-                          placeholder={t('messagePlaceholder', 'Please provide detailed information about your issue. Include steps to reproduce if it\'s a technical problem.')}
+                          placeholder={t('contact.form.messagePlaceholder', 'Describe your assistance request...')}
                           rows={6}
                           value={formData.message}
                           onChange={(e) => setFormData({ ...formData, message: e.target.value })}
@@ -427,12 +427,12 @@ export default function ContactPage() {
                         {isSubmitting ? (
                           <>
                             <div className="w-4 h-4 border-2 border-white border-t-transparent rounded-full animate-spin mr-2" />
-                            {t('submitting', 'Submitting...')}
+                            {t('contact.form.sending', 'Sending...')}
                           </>
                         ) : (
                           <>
                             <Send className="w-4 h-4 mr-2" />
-                            {t('submitRequest', 'Submit Request')}
+                            {t('contact.form.submit', 'Send Message')}
                           </>
                         )}
                       </Button>

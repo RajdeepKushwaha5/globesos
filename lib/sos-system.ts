@@ -23,6 +23,8 @@ export interface SOSAlert {
     batteryLevel?: number
     deviceInfo?: string
     additionalNotes?: string
+    offline?: boolean
+    queuedAt?: string
   }
 }
 
@@ -213,14 +215,14 @@ async function queueOfflineAlert(alertData: any): Promise<void> {
     const request = indexedDB.open('globesos-offline', 1)
 
     request.onupgradeneeded = (event) => {
-      const db = event.target.result
-      if (!db.objectStoreNames.contains('offline-queue')) {
+      const db = (event.target as IDBOpenDBRequest)?.result
+      if (db && !db.objectStoreNames.contains('offline-queue')) {
         db.createObjectStore('offline-queue', { keyPath: 'id' })
       }
     }
 
     request.onsuccess = (event) => {
-      const db = event.target.result
+      const db = (event.target as IDBOpenDBRequest)?.result
       const transaction = db.transaction(['offline-queue'], 'readwrite')
       const store = transaction.objectStore('offline-queue')
 

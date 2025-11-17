@@ -15,7 +15,9 @@
     "lingo:extract": "node i18n/scripts/extract-lingo.js",
     "lingo:translate": "node i18n/scripts/translate-lingo.js",
     "lingo:sync": "npm run lingo:extract && npm run lingo:translate",
-    "lingo:test": "node i18n/scripts/test-lingo.js"
+    "lingo:test": "node i18n/scripts/test-lingo.js",
+    "translations:sync": "node sync-translations.js",
+    "translations:test": "node test-translation-coverage.js"
   },
   "dependencies": {
     "@ai-sdk/google": "^2.0.31",
@@ -91,6 +93,7 @@
     "@types/node": "^22",
     "@types/react": "^19",
     "@types/react-dom": "^19",
+    "@types/web-push": "^3.6.4",
     "dotenv": "^17.2.3",
     "postcss": "^8.5",
     "tailwindcss": "^4.1.9",

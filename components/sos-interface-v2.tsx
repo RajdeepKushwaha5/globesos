@@ -533,7 +533,7 @@ export function SOSInterfaceV2() {
                   {t("attachFiles", "Attach Photos/Videos")} <span className="text-muted-foreground font-normal">(Optional)</span>
                 </Label>
                 <FileUploadV2
-                  onUploadComplete={handleFileUpload}
+                  onFilesChange={handleFileUpload}
                   maxFiles={5}
                   maxSizeMB={10}
                 />

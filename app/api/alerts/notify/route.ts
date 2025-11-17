@@ -47,7 +47,7 @@ export async function POST(request: Request) {
       notified: responders?.length || 0,
       responders: responders?.map(r => ({
         id: r.id,
-        name: r.profiles?.name || r.organization,
+        name: r.profiles?.[0]?.name || r.organization,
         organization: r.organization
       })) || [],
     })
