@@ -4,6 +4,8 @@
 
 GlobeSoS is a **world-class, AI-powered multilingual emergency response platform** connecting people in crisis with verified responders worldwide. It features **advanced Lingo.dev integration** to break down language barriers in life-threatening situations, ensuring that help is never lost in translation.
 
+<img width="1893" height="954" alt="image" src="https://github.com/user-attachments/assets/b281e74d-eb34-4a49-9d8a-04f6fe941409" />
+
 ---
 
 ## 🏆 Advanced Lingo.dev Integration
