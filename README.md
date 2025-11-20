@@ -102,6 +102,7 @@ We have built a custom CLI workflow to manage translations efficiently:
 -   **Sync**: `npm run lingo:sync` - Runs extraction and translation in one go.
 
 ---
+<img width="1884" height="898" alt="image" src="https://github.com/user-attachments/assets/312516ab-9353-462b-8ec7-4f099b0cb6c2" />
 
 ## 📄 License
 
