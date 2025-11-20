@@ -13,7 +13,7 @@ export async function GET() {
       countriesCovered: 0,
       activeAlerts: 0,
       avgTranslationTime: 0,
-      translationAccuracy: 99,
+      translationAccuracy: 95,
     }
 
     // Try to get real data from database
@@ -23,7 +23,7 @@ export async function GET() {
         .from('responders')
         .select('*', { count: 'exact', head: true })
         .eq('verified', true)
-      
+
       stats.verifiedResponders = responderCount || 0
 
       // Count active alerts
@@ -31,7 +31,7 @@ export async function GET() {
         .from('alerts')
         .select('*', { count: 'exact', head: true })
         .in('status', ['active', 'responding'])
-      
+
       stats.activeAlerts = alertCount || 0
 
       // Calculate average response time from recent alerts
@@ -50,7 +50,7 @@ export async function GET() {
             const updated = new Date(alert.updated_at).getTime()
             return (updated - created) / 1000 // Convert to seconds
           })
-        
+
         if (responseTimes.length > 0) {
           const avgSeconds = responseTimes.reduce((a, b) => a + b, 0) / responseTimes.length
           stats.responseTime = Math.round(avgSeconds)
@@ -75,11 +75,11 @@ export async function GET() {
     } catch (dbError) {
       console.warn('[Stats API] Database unavailable, using defaults:', dbError)
       // Use reasonable defaults when database is not configured
-      stats.verifiedResponders = 15234
-      stats.countriesCovered = 187
+      stats.verifiedResponders = 50
+      stats.countriesCovered = 12
       stats.activeAlerts = 0
-      stats.responseTime = 2
-      stats.avgTranslationTime = 0.8
+      stats.responseTime = 5
+      stats.avgTranslationTime = 1.2
     }
 
     return NextResponse.json({
@@ -90,19 +90,19 @@ export async function GET() {
   } catch (error: any) {
     console.error('[Stats API] Error:', error)
     return NextResponse.json(
-      { 
-        success: false, 
+      {
+        success: false,
         error: error.message,
         stats: {
           languages: 100,
           responseTime: 2,
           availability: "24/7",
           coverage: "Global",
-          verifiedResponders: 15234,
-          countriesCovered: 187,
+          verifiedResponders: 50,
+          countriesCovered: 12,
           activeAlerts: 0,
-          avgTranslationTime: 0.8,
-          translationAccuracy: 99,
+          avgTranslationTime: 1.2,
+          translationAccuracy: 95,
         }
       },
       { status: 200 } // Still return 200 with defaults

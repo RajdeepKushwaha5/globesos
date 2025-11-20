@@ -23,8 +23,8 @@ export function TranslationDemo() {
   const [statsLoading, setStatsLoading] = useState(true)
   const [stats, setStats] = useState({
     languages: 100,
-    avgTime: 0.8,
-    accuracy: 99
+    avgTime: 1.2,
+    accuracy: 95
   })
 
   useEffect(() => {
@@ -45,8 +45,8 @@ export function TranslationDemo() {
           // Use fallback values if API doesn't return expected format
           setStats({
             languages: 100,
-            avgTime: 0.8,
-            accuracy: 99
+            avgTime: 1.2,
+            accuracy: 95
           })
         }
       } catch (error) {
@@ -54,14 +54,14 @@ export function TranslationDemo() {
         // Use fallback values on any error
         setStats({
           languages: 100,
-          avgTime: 0.8,
-          accuracy: 99
+          avgTime: 1.2,
+          accuracy: 95
         })
       } finally {
         setStatsLoading(false)
       }
     }
-    
+
     fetchStats()
     // Auto-refresh stats every 60 seconds
     const interval = setInterval(fetchStats, 60000)
@@ -74,7 +74,7 @@ export function TranslationDemo() {
     setLoading(true)
     setTranslationTime(0) // Reset translation time
     const startTime = Date.now()
-    
+
     try {
       // Translate using Lingo.dev API
       const translateRes = await fetch("/api/lingo/translate", {
@@ -86,17 +86,17 @@ export function TranslationDemo() {
           sourceLang: "auto",
         }),
       })
-      
+
       if (!translateRes.ok) {
         throw new Error(`Translation failed: ${translateRes.statusText}`)
       }
-      
+
       const translateData = await translateRes.json()
-      
+
       // Extract translated text from Lingo.dev response
       const translated = translateData.translatedText || translateData.text || inputText
       setTranslatedText(translated)
-      
+
       const endTime = Date.now()
       const timeInSeconds = (endTime - startTime) / 1000
       setTranslationTime(timeInSeconds)
@@ -108,7 +108,7 @@ export function TranslationDemo() {
           headers: { "Content-Type": "application/json" },
           body: JSON.stringify({ message: inputText }),
         })
-        
+
         if (classifyRes.ok) {
           const classifyData = await classifyRes.json()
           setEmergencyType(classifyData.type)

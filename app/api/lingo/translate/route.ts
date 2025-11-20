@@ -34,36 +34,24 @@ export async function POST(req: Request) {
 
     console.log("Using Lingo.dev to translate:", { text, targetLang, sourceLang })
 
-    const languageMap: Record<string, string> = {
-      es: "es", fr: "fr", de: "de", it: "it", pt: "pt",
-      ru: "ru", ja: "ja", ko: "ko", zh: "zh", ar: "ar",
-      hi: "hi", nl: "nl", pl: "pl", tr: "tr", sv: "sv",
-      en: "en"
-    }
-
-    const targetLanguage = languageMap[targetLang] || targetLang
-    const sourceLanguage = languageMap[sourceLang || "en"] || sourceLang || "en"
-
     try {
       // Use Lingo.dev SDK for translation
-      // const translatedText = await lingoDotDev.translate({
-      //   text,
-      //   sourceLanguage,
-      //   targetLanguage
-      // })
+      // localizeText(text: string, targetLocale: string, sourceLocale?: string)
+      const translatedText = await lingoDotDev.localizeText(
+        text,
+        targetLang,
+        sourceLang
+      )
 
-      // Temporary: return original text until SDK is fixed
-      const translatedText = text
-
-      console.log("✅ Lingo.dev Translation:", { 
-        original: text, 
-        translated: translatedText.trim(), 
-        targetLang 
+      console.log("✅ Lingo.dev Translation:", {
+        original: text,
+        translated: translatedText,
+        targetLang
       })
 
       return NextResponse.json({
         originalText: text,
-        translatedText: translatedText.trim(),
+        translatedText: translatedText,
         sourceLang: sourceLang || "auto",
         targetLang,
         confidence: 0.95,
@@ -86,9 +74,9 @@ export async function POST(req: Request) {
 
   } catch (error: any) {
     console.error("❌ Translation error:", error.message || error)
-    
+
     const body = await req.json().catch(() => ({ text: "", targetLang: "en" }))
-    
+
     return NextResponse.json({
       originalText: body.text,
       translatedText: body.text,

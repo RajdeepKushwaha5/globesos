@@ -11,8 +11,8 @@ import { useGlobalTranslation } from "@/components/translation-provider"
 export function GlobalImpact() {
   const { t } = useGlobalTranslation()
   const [stats, setStats] = useState({
-    verifiedResponders: 15234,
-    countriesCovered: 187,
+    verifiedResponders: 50,
+    countriesCovered: 12,
     languagesSupported: 100,
     availability: "24/7"
   })
@@ -35,8 +35,8 @@ export function GlobalImpact() {
         } else {
           // Use fallback values if API doesn't return expected format
           setStats({
-            verifiedResponders: 15234,
-            countriesCovered: 187,
+            verifiedResponders: 50,
+            countriesCovered: 12,
             languagesSupported: 100,
             availability: "24/7"
           })
@@ -45,8 +45,8 @@ export function GlobalImpact() {
         console.warn('Failed to fetch stats, using defaults:', error)
         // Use fallback values on any error
         setStats({
-          verifiedResponders: 15234,
-          countriesCovered: 187,
+          verifiedResponders: 50,
+          countriesCovered: 12,
           languagesSupported: 100,
           availability: "24/7"
         })

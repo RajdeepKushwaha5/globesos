@@ -10,8 +10,8 @@
     "ar",
     "ko"
   ],
-  "sourceFile": "i18n/locales/en.json",
-  "outputPattern": "i18n/locales/{locale}.json",
+  "sourceFile": "public/i18n/locales/en.json",
+  "outputPattern": "public/i18n/locales/{locale}.json",
   "namespace": "common",
   "context": "emergency_response",
   "glossary": {

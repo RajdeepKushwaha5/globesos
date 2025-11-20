@@ -11,7 +11,7 @@ export function Hero() {
   const { t } = useGlobalTranslation()
   const [stats, setStats] = useState({
     languages: 100,
-    responseTime: 2,
+    responseTime: 5,
     availability: "24/7",
     coverage: "Global"
   })
@@ -36,7 +36,7 @@ export function Hero() {
           // Use fallback values if API doesn't return expected format
           setStats({
             languages: 100,
-            responseTime: 2,
+            responseTime: 5,
             availability: "24/7",
             coverage: "Global"
           })
@@ -46,7 +46,7 @@ export function Hero() {
         // Use fallback values on any error
         setStats({
           languages: 100,
-          responseTime: 2,
+          responseTime: 5,
           availability: "24/7",
           coverage: "Global"
         })

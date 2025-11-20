@@ -2,45 +2,61 @@
 
 ## 🎯 Emergency Response Without Borders
 
-GlobeSoS is a **world-class, AI-powered multilingual emergency response platform** connecting people in crisis with verified responders worldwide. Featuring **advanced Lingo.dev integration** for breaking down language barriers in life-threatening situations.
+GlobeSoS is a **world-class, AI-powered multilingual emergency response platform** connecting people in crisis with verified responders worldwide. It features **advanced Lingo.dev integration** to break down language barriers in life-threatening situations, ensuring that help is never lost in translation.
 
 ---
 
-## 🏆 Highlighted Features
+## 🏆 Advanced Lingo.dev Integration
 
-### 🌐 Advanced Lingo.dev Integration
-**[See Full Documentation →](./LINGO_ADVANCED_INTEGRATION.md)**
+GlobeSoS demonstrates production-grade internationalization (i18n) through a deep integration with Lingo.dev. This implementation goes far beyond basic translation to showcase creativity, technical depth, and global impact.
 
-#### ✨ Creative Features
-- **Multilingual Emergency Assistant**: AI-powered component translating emergency descriptions to 24+ languages in real-time
-- **Geo-Based Language Detection**: Auto-detects user location and suggests appropriate language on first visit with beautiful popup
-- **Emergency Classification AI**: Automatically categorizes emergencies across languages with confidence scoring
-- **RTL Layout Engine**: Full right-to-left support for Arabic, Hebrew, Persian, and Urdu
-- **Smart Language Suggestions**: Country-aware language mapping covering 50+ countries
+### ✨ Creative Features
+- **Multilingual Emergency Assistant**: An AI-powered component that translates emergency descriptions to 24+ languages in real-time, ensuring responders understand the situation regardless of their native language.
+- **Geo-Based Language Detection**: Automatically detects the user's location and suggests the appropriate language on their first visit with a non-intrusive, beautiful popup.
+- **Emergency Classification AI**: Automatically categorizes emergencies (e.g., Medical, Fire, Police) across languages with confidence scoring.
+- **RTL Layout Engine**: Full right-to-left support with automatic layout flipping for Arabic, Hebrew, Persian, and Urdu.
+- **Smart Language Suggestions**: Country-aware language mapping covering 50+ countries.
 
-#### 🔧 Technical Excellence
-- **24 Languages**: Covering 5.2 billion people (65% of world population)
-- **Intelligent Caching**: 100x faster translations with localStorage + memory cache (1-hour TTL, 1000 entries)
-- **Batch Processing**: Translate 50 items simultaneously with retry logic
-- **CLI Automation**: 6 custom npm scripts for professional i18n workflow
-- **Type-Safe**: Full TypeScript support with namespace organization
+### 🔧 Technical Excellence
+- **24 Languages**: Covering 5.2 billion people (65% of the world population).
+- **Intelligent Caching**: 100x faster translations with localStorage + memory cache (1-hour TTL, 1000 entries).
+- **Batch Processing**: Translates up to 50 items simultaneously with retry logic to optimize API usage.
+- **CLI Automation**: Custom npm scripts (`lingo:extract`, `lingo:translate`) for a professional i18n workflow.
+- **Type-Safe**: Full TypeScript support with namespace organization.
 
-#### 📊 Performance Metrics
-- **Translation Speed**: <5ms with cache (99% latency reduction)
-- **API Efficiency**: 95% reduction in API calls
-- **Language Detection**: <500ms with 95% accuracy (geolocation-based)
-- **Batch Translation**: 2.5 seconds for 100 items
+### 📊 Performance Metrics
+- **Translation Speed**: <5ms with cache (99% latency reduction).
+- **API Efficiency**: 95% reduction in API calls due to smart caching.
+- **Language Detection**: <500ms with 95% accuracy (geolocation-based).
 
 ---
 
-## Prerequisites
+## 🚀 Core Features
 
-- Node.js 18+
-- Supabase account (free tier available)
-- **Lingo.dev API Key** (for translation)
-- **Lingo.dev SDK v0.115.0+** (included in dependencies)
+### ✅ Emergency Response
+- **Realtime Responder Tracking**: Live GPS location updates for responders.
+- **Emergency Broadcasting**: Instant alerts to nearby responders within a configurable radius.
+- **Panic Mode**: One-tap activation for immediate distress signaling.
+- **OpenStreetMap Integration**: Privacy-focused, free alternative to Google Maps.
 
-## Quick Setup
+### ✅ Communication
+- **AI Chat Translation**: Real-time multilingual chat between victims and responders.
+- **Push Notifications**: Browser notifications for alerts and updates.
+- **Dashboard Analytics**: Real-time statistics on response times and active alerts.
+
+---
+
+## 🛠️ Tech Stack
+
+- **Frontend**: Next.js 16, TypeScript, Tailwind CSS, Framer Motion
+- **Backend**: Next.js API Routes, Supabase (PostgreSQL, Realtime)
+- **AI & Translation**: Lingo.dev SDK, Google Gemini
+- **Maps**: Leaflet, OpenStreetMap
+- **State Management**: React Context, SWR
+
+---
+
+## ⚡ Quick Setup
 
 ### 1. Install Dependencies
 ```bash
@@ -48,148 +64,40 @@ pnpm install
 ```
 
 ### 2. Environment Variables
-Copy `.env.local` and fill in your keys:
+Copy `.env.local.example` to `.env.local` and fill in your keys:
 ```bash
 cp .env.local.example .env.local
 ```
 
-Required variables:
-- `NEXT_PUBLIC_SUPABASE_URL` - Your Supabase project URL
-- `NEXT_PUBLIC_SUPABASE_ANON_KEY` - Supabase anonymous key
-- `SUPABASE_SERVICE_ROLE_KEY` - Supabase service role key (optional)
-- `LINGO_API_KEY` - **Lingo.dev API key for translation**
-- `NEXT_PUBLIC_LINGO_API_KEY` - **Lingo.dev public API key**
-- `NEXT_PUBLIC_VAPID_PUBLIC_KEY` - Push notification public key
-- `VAPID_PRIVATE_KEY` - Push notification private key
+**Required Variables:**
+- `NEXT_PUBLIC_SUPABASE_URL`: Your Supabase project URL
+- `NEXT_PUBLIC_SUPABASE_ANON_KEY`: Supabase anonymous key
+- `LINGO_API_KEY`: **Lingo.dev API key** (Critical for translation features)
+- `NEXT_PUBLIC_LINGO_API_KEY`: **Lingo.dev public API key**
 
 ### 3. Database Setup
+1.  Create a project at [supabase.com](https://supabase.com).
+2.  Run the SQL scripts in `setup-database.sql` and `add-missing-tables.sql` via the Supabase SQL Editor.
+3.  (Optional) Run `sample-data.sql` to populate the database with test data.
 
-#### Create Supabase Project
-1. Go to [supabase.com](https://supabase.com)
-2. Create a new project
-3. Wait for setup to complete
-
-#### Run Migration
-1. Go to your Supabase Dashboard → SQL Editor
-2. **First:** Copy/paste the contents of `setup-database.sql` and click "Run"
-3. **Then:** Copy/paste the contents of `add-missing-tables.sql` and click "Run"
-4. **Verify:** Run `node verify-migration.js` in your terminal
-
-#### (Optional) Add Sample Data
-1. In SQL Editor, copy/paste `sample-data.sql`
-2. Click "Run"
-
-### 4. Test Database Connection
-```bash
-node test-supabase.js
-```
-
-### 5. Start Development Server
+### 4. Start Development Server
 ```bash
 pnpm dev
 ```
+Visit `http://localhost:3000` to see the platform in action.
 
-Visit `http://localhost:3000` to see the platform.
+---
 
-## Features Implemented
+## 🔄 Lingo.dev Workflow
 
-### ✅ Core Features
-- **OpenStreetMap Integration** - Free alternative to Google Maps
-- **Realtime Responder Tracking** - Live GPS location updates
-- **Emergency Broadcasting** - Instant alerts to nearby responders
-- **AI Chat Translation** - Multilingual communication
-- **Push Notifications** - Browser notifications for alerts
-- **Dashboard Analytics** - Real-time response statistics
+We have built a custom CLI workflow to manage translations efficiently:
 
-### ✅ API Endpoints
-- `/api/alerts/broadcast` - Emergency broadcasting
-- `/api/alerts/panic` - Panic mode activation
-- `/api/chat/translate` - AI translation service
-- `/api/responders/location` - GPS location updates
-- `/api/notifications` - Push notification management
+-   **Extract Strings**: `npm run lingo:extract` - Scans code for `t()` calls and updates `en.json`.
+-   **Translate**: `npm run lingo:translate` - Uses Lingo.dev AI to generate translations for all 24 locales.
+-   **Sync**: `npm run lingo:sync` - Runs extraction and translation in one go.
 
-### ✅ Components
-- `MapView` - Interactive emergency map
-- `ActiveAlerts` - Live alert monitoring
-- `NearbyResponders` - Responder proximity display
-- `ChatInterface` - Realtime multilingual chat
-- `Dashboard` - Response coordination center
+---
 
-## Testing Realtime Features
-
-### Database Test Panel
-Visit `/dashboard` and use the "Database Test" panel to verify:
-- Table connectivity
-- RLS policies
-- Basic CRUD operations
-
-### Realtime Test Panel
-Use the "Realtime Test" panel to verify:
-- Supabase subscriptions
-- Live location updates
-- Push notifications
-- Emergency broadcasting
-
-## Troubleshooting
-
-### Common Issues
-
-**Empty error objects in logs:**
-- Database migration not run
-- Solution: Run `supabase-migration.sql` in Supabase SQL Editor
-
-**Realtime features not working:**
-- Check browser console for WebSocket errors
-- Verify Supabase realtime is enabled
-- Test with `node test-supabase.js`
-
-**Map not loading:**
-- Check OpenStreetMap tile server status
-- Verify Leaflet dependencies
-
-**Translations failing:**
-- Check Google AI API key
-- Verify API quota/limits
-
-### Debug Commands
-```bash
-# Test database connection
-node test-supabase.js
-
-# Check environment variables
-echo $NEXT_PUBLIC_SUPABASE_URL
-
-# View Supabase logs
-# Go to Supabase Dashboard → Logs → API
-```
-
-## Architecture
-
-### Tech Stack
-- **Frontend:** Next.js 16, TypeScript, Tailwind CSS
-- **Backend:** Next.js API routes
-- **Database:** Supabase PostgreSQL
-- **Realtime:** Supabase realtime subscriptions
-- **Maps:** OpenStreetMap with Leaflet
-- **AI:** Google Gemini for translations
-- **Notifications:** Web Push API
-
-### Database Schema
-- `profiles` - User profiles (extends auth.users)
-- `alerts` - Emergency alerts with real-time updates
-- `responders` - Verified responder profiles
-- `responder_locations` - Real-time responder GPS tracking
-- `notifications` - User notifications (with type, priority, message)
-- `chat_messages` - Emergency chat messages (with sender_type)
-- `push_subscriptions` - Web push notification subscriptions
-
-## Contributing
-
-1. Fork the repository
-2. Create a feature branch
-3. Run tests: `node test-supabase.js`
-4. Submit a pull request
-
-## License
+## 📄 License
 
 This project is licensed under the MIT License.
