@@ -35,6 +35,9 @@ GlobeSoS demonstrates production-grade internationalization (i18n) through a dee
 
 ## 🚀 Core Features
 
+<img width="1707" height="874" alt="image" src="https://github.com/user-attachments/assets/27997656-0424-4154-afa9-fb4c520840f8" />
+
+
 ### ✅ Emergency Response
 - **Realtime Responder Tracking**: Live GPS location updates for responders.
 - **Emergency Broadcasting**: Instant alerts to nearby responders within a configurable radius.
